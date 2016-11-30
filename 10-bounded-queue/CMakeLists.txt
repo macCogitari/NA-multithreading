@@ -1,3 +1,7 @@
+#add_definitions(
+#    -fsanitize=thread
+#)
+
 add_executable(11-producer-consumer
     11-producer-consumer.cpp bounded_queue.h
 )
