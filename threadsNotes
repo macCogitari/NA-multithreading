@@ -171,7 +171,7 @@ procesor za chwilę wrzuci wątek spowrotem do procesora
 jeśli na niezalokowanym mutexu wywołamy unlock
 to dostniemy wyjątek system_error
 
-pulling? pooling?
+Polling
 w dość aktywnej pętli sprawdzamy warunek
 zurzywając zasoby komputera
 
