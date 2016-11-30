@@ -1,0 +1,171 @@
+
+rejestry ymm
+
+rejestry ogólnego użycia
+
+pthread_t thread;
+pthread_create(&thread, NULL
+pthread_join(thread, &retval);
+// czemamy na zwrócenie wartości przez wątek
+
+zombie process
+
+grim ripper
+process pid 1
+
+
+w boost::thread
+
+jeśli nie wywołamy join albo detach
+przed destruktorem tego obiektu to
+wywoła się terminate
+
+joinable będzie true
+jeśli joinable będzie false
+to terminate się nie wywoła
+
+w std::thread
+
+nie ma zwracania wartości
+
+żeby zwrócić wartość
+trzeba stworzyć jakąś zmienną
+i przekazać referencję do std::thread
+
+
+std::thread::id std::this_thread::get_id();
+void std::this_thread::yield(); // ja wątek poddaję się
+
+
+std::this_thread::sleep_for
+std::this_thread::sleep_until
+
+C++98 i C++03 nie wiedzą co to wątek
+robią optymalizację która zakłada, że nikt inny nie odwołuje się do pamięci
+
+użycie wątków w tych standarcie jest zachowaniem niezdefiniowanym zawsze
+
+
+micro code
+x86 to sprzętowy kompilator
+
+metastabilne stany
+
+wyalignowane inty do 4 i inne dane na x86 są atomowe
+tzn bezpieczne dla wątków
+
+
+pipelining na procesorze
+przetwarzanie potokowe
+
+kilka rzeczy które dzieją się na raz
+
+w czasie kiedy dekodowane są dane z cache'a
+to ładowane są z pamięci inne następne dane
+
+branch predictor
+sprawdza co jest bardziej prawdopodobne do przejścia do kolejnego brancha
+
+gcc godbold org c++
+
+dead lock
+2 albo nawet jeden wątek czeka na locku przez wieczność
+
+live lock
+live lock to jak dwa wątki próbują cały czas coś zrobić
+
+try_lock próbuje zalokować
+jeśli się nie uda to mamy false i możemy się zająć czymś innym
+jeśli zwraca true to znaczy że lock się udał.
+
+lock będzie czakać aż będzie wolny mutex odblokowany
+
+mutable mutex
+ma sens jeśli mamy klasę z metodami const
+wtedy nie moglibyśmy na rzecz tej klasy wywołać
+metod mutexa bo nie mają słówka const przy metodach
+stąd słówko mutable
+
+mutexy to najprostsze
+
+sekcje krytyczne powinny być jak najwęższe
+mtx.lock();
+int y =x;
+mtx.unlock();
+
+futex fast user space mutex
+
+samo zalokowanie mutexa nie jest
+
+lock congestion
+występuje gdy wiele wątków na raz próbuje zalokować mutex
+
+nigdy w wewnątrz sekcji krytycznej
+nie wywołujemy funkcji której nie znamy np jakieś std::function
+bo nigdy nie wiemy czy ta funkcja nie spróbuje zalokować
+tego samego mutexa którego już zalokowaliśmy.
+To najprostrza droga do deadlocka.
+
+std::thread
+przekazuje domyślnie przez wartość
+więc jeśli chcemy przekazać do funkcji referencję
+to musimy opakować ją poprzez std::ref
+std::ref
+
+lock_guard
+
+scoped_lock // wejdzie w c++17 lock_guard dla wielu mutexów
+
+w swoich konstruktorach zalokują mutexa
+a w destruktorach odblokowywują mutexa
+
+lock_guard działa na wszystkim co ma w sobie lock()
+i unlock()
+taki lekki helper który kompiluje się do czystego lock na początku scopa
+i unlocka na końcu skopa
+
+w c++17 mandatory return value optimalization
+
+a przedtem nie mogliśmy skompilować skopiowania lock_guarda
+poprzez zwrócenie go poprzez return.
+
+
+std::lock(...)
+możemy podać wiele mutexów
+i on zalokuje te mutexy w takiej kolejności, żeby nie było deadlocka
+ale trzeba pamiętać żeby na końcu unlockować wszystkie
+
+w c++17 jest też std::make_guard
+
+std::scoped_lock<Mutexes...>{mtxs...};
+nie trzeba pamiętać o odblokowaniu, bo na końcu scopa się wszystkie
+mutexy unlockują
+
+
+jeśli lock_guard utworzymy bez nazwy
+to w miejscu zalokuje mutexa i go unlockuje
+
+std::unique_lock<std::mutex> l1{m1, std::defer_lock}; //
+std::unique_lock<std::mutex> l2{m2, std::defer_lock}; //
+// defer_lock żeby nie zalokował w konstruktorze
+
+std::lock(l1, l2);
+wie jak zalokować bo l1 i l2 ma w sobie locka i unlocka
+
+std::unique_lock zachowuje się trochę jak uniqe_ptr
+w destruktorze robi unlock l1;
+
+std::defer_lock - nie lockuj w konstruktorze
+std::try_to_lock - spróbuje zalokować mutexa w konstruktorze
+std::adopt_lock - przyjmij że mutex jest zalokowany
+
+jeśli nie podamy argumentu to się zachowa jak lock_guard
+
+
+Nie używamy std::deque, bo pod windowsem są problemy
+
+
+
+
+
+
