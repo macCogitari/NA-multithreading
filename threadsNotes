@@ -186,4 +186,18 @@ Wszystkie się wybudzą, ale wszystkie będą próbować zalokować ten sam mute
 wait z predykatem sprawia, że jeśli ktoś nas wybudzi to będziemy
 musieli sprawdzić predykat jeśli warunek nie będzie sprawdzony to wait wywoła się jeszcze raz.
 
+recursive_mutex
 
+timed_mutex
+
+recursive_time_mutex
+
+shared_mutex
+ma dwa tryby writer/reader
+ci co czytają mogą zrobić sharedlock
+ale ich może być dużo wywołań
+
+shared_timed_mutex
+
+shared_lock jak unique_lock
+ale wywołuje shared locka
