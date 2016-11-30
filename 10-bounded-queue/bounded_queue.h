@@ -4,6 +4,7 @@
 #include <array>
 #include <mutex>
 #include <thread>
+#include <condition_variable>
 
 template<typename T, std::size_t N>
 class bounded_queue
@@ -13,16 +14,16 @@ public:
     {
         std::unique_lock<std::mutex> lock{_mtx};
 
-        while ( _size == N )
-        {
-            lock.unlock();
-            std::this_thread::yield();
-            lock.lock();
-        }
+//        while ( _size == N )
+//        {
+//            _full_queue.wait(lock);
+//        }
+        _full_queue.wait(lock, [&](){return _size != N;});
 
         _buffer[_back] = std::move(t);
         _back = (_back + 1) % N;
         ++_size;
+        _empty_queue.notify_one();
 
     }
 
@@ -30,21 +31,24 @@ public:
     {
         std::unique_lock<std::mutex> lock{ _mtx};
 
-        while (_size == 0) {
-            lock.unlock();
-            std::this_thread::yield();
-            lock.lock();
-        }
+//        while (_size == 0) {
+//            _empty_queue.wait(lock);
+//        }
+        _empty_queue.wait(lock, [&](){return _size != 0;});
 
         auto ret = _buffer[_front];
         _front = (_front + 1) % N;
         --_size;
+
+        _full_queue.notify_one();
 
         return ret;
     }
 
 private:
     std::mutex _mtx;
+    std::condition_variable _full_queue; // kolejka wątków, czekamy ponieważ kolejka jest pełna
+    std::condition_variable _empty_queue; // kolejka wątków, czekamy ponieważ kolejka jest pusta
 
     std::array<T,N> _buffer;
     std::size_t _front = 0;
