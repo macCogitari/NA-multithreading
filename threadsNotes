@@ -165,7 +165,13 @@ jeśli nie podamy argumentu to się zachowa jak lock_guard
 Nie używamy std::deque, bo pod windowsem są problemy
 
 
+std::this_thread::yield(); // wątek ruguje siebie z procesora
+procesor za chwilę wrzuci wątek spowrotem do procesora
 
+jeśli na niezalokowanym mutexu wywołamy unlock
+to dostniemy wyjątek system_error
 
-
+pulling? pooling?
+w dość aktywnej pętli sprawdzamy warunek
+zurzywając zasoby komputera
 
