@@ -175,3 +175,15 @@ pulling? pooling?
 w dość aktywnej pętli sprawdzamy warunek
 zurzywając zasoby komputera
 
+condition_variable
+to struktura synchronizacyjna
+pozwala na niej poczekać aż jakiś warunek zostanie spełniony
+zwykły wait czeka aż ktoś zawoła notify_one()
+jeśli zero wątków czeka i notify_one się wywoła to nic się nie stanie
+jeśli 3 wątki czekają to tylko jeden się wybudzi
+a jeśli notify_all to tak naprawdę tylko jeden się prawidłowo wybudzi
+Wszystkie się wybudzą, ale wszystkie będą próbować zalokować ten sam mutex
+wait z predykatem sprawia, że jeśli ktoś nas wybudzi to będziemy
+musieli sprawdzić predykat jeśli warunek nie będzie sprawdzony to wait wywoła się jeszcze raz.
+
+
