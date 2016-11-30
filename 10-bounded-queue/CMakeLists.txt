@@ -1,5 +1,5 @@
 add_executable(11-producer-consumer
-    11-producer-consumer.cpp
+    11-producer-consumer.cpp bounded_queue.h
 )
 
 target_link_libraries(11-producer-consumer
