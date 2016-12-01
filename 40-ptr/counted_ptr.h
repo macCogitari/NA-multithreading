@@ -100,7 +100,7 @@ private:
     {
         if(_state)
         {
-            other._state->count++;
+            _state->count++;
         }
     }
 
