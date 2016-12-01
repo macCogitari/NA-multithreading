@@ -201,3 +201,47 @@ shared_timed_mutex
 
 shared_lock jak unique_lock
 ale wywołuje shared locka
+
+
+Atomics.
+zmienne atomowe. Są niepodzielne.
+
+Sequential consistency.
+Jesteśmy w stanie stwierdzić dokładnie w jakiej kolejności były dokonywane zmiany w pamięci.
+
+operacje atomowe są by default oznaczone:
+memory_order_seq_cst
+
+
+trzeba uruchamiać testy na o0 na o3 i na os
+z różnymi poziomami optymalizacji
+
+bariera. Dla procesora oznacza
+zatrzymaj się tutaj.
+
+
+std::atomic<int> x = 0;
+koszty atomiców są mniejsze niż koszty locków
+ponadtto nie trzeba pamiętać który lock za co odpowiada.
+x.load();
+x.store(1, std::memory_order_seq_cst);
+
+
+2 metody atomica:
+compare_exchange_weak
+compare_exchange_strong
+// ma silniejsze gwarancje
+jeśli wartość atomica jest taka jak pierwszy argument to podmieniamy
+wartość atomica wartością z drugiego argumentu
+
+compare_exchange_weak może skłamać
+a strong nie
+
+lock free programming
+
+
+
+
+//TLB
+//translational look ...
+
