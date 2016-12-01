@@ -1,5 +1,5 @@
 add_executable(21-semaphore
-    21-semaphore.cpp
+    21-semaphore.cpp semaphore.h
 )
 
 target_link_libraries(21-semaphore

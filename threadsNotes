@@ -239,6 +239,58 @@ a strong nie
 
 lock free programming
 
+arm v8 jest jedyną architekturą
+wspierającą model pamięci ze standardu c++11
+
+
+Acquire - release ordering
+
+acquire podobne do mutex.lock();
+zazwyczaj czytanie
+
+release podobne do mutex.unlock();
+zazwyczaj pisanie
+
+ale tylko koncepcyjnie bo mutex.lock oznacza że coś staje się nasze
+a release oznacza że coś oddajemy, publikujemy dla świata
+
+kompilator nie przeniesie nic przed acquire
+ani przed mutex.lock();
+
+kompilator nie przeniesie nic za release
+ani za sekcję krytyczną czyli mutex.unlock()
+
+std::memory_order_acquire
+może być tylko użyte do czytania i exchange
+
+std::memory_order_release
+
+
+std::memory_orde_acq_rel all operations are both acquire and release
+czyli acquire można przesunąć względem tego
+
+std::memory_order_seq_cst all operations are both acquire and release
+operations and acquire and release operations cannot be reordered with respect to each other
+czyli nie mogą się dwie sekcje krytyczne nakładać na siebie
+
+
+MOESI protocol
+cache coherency
+spójność pamięci podręcznej
+
+std::memory_order_relaxed no order is imposed
+// czytam Ci tę wartość atomowo
+ale nie daję gwarancji, że ta operacja nie zostanie przesunięta
+ze względu na dwie architektury POWER, ARM v7
+
+free functions
+fences (you aint gonna need it) // bariery
+atomic_compare_exchange_strong
+atomic_compare_exchange_strong_explicite
+
+std::atomic_shared_ptr
+
+semafor
 
 
 

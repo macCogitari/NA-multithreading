@@ -3,7 +3,7 @@ add_definitions(
 )
 
 add_executable(31-spinlock
-    31-spinlock.cpp
+    31-spinlock.cpp spinlock.h
 )
 
 target_link_libraries(31-spinlock
