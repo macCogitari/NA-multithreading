@@ -4,6 +4,7 @@ add_definitions(
 
 add_executable(41-ptr
     41-ptr.cpp
+    counted_ptr.h
 )
 
 target_link_libraries(41-ptr
