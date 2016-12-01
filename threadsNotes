@@ -293,6 +293,10 @@ std::atomic_shared_ptr
 semafor
 
 
+std::future
+
+
+
 
 //TLB
 //translational look ...
