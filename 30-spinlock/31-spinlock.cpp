@@ -21,7 +21,7 @@ TEST_CASE("lock unlock", "[spinlock]")
         int i = 0;
 
         auto routine = [&](){
-            std::lock_guard<spinlock> lock{ mut };
+//            std::lock_guard<spinlock> lock{ mut };
             if (i < 3)
             {
                 ++i;
