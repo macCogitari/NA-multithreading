@@ -9,6 +9,7 @@ public:
     {
         while(!try_lock())
         {
+            asm volatile ("pause" : : : "memory");
         }
     }
 
